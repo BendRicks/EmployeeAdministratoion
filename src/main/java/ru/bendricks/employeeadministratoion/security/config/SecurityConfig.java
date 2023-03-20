@@ -1,16 +1,22 @@
 package ru.bendricks.employeeadministratoion.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.bendricks.employeeadministratoion.security.util.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -18,20 +24,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailsService).passwordEncoder(passwordEncoder).and().build();
+    public AuthenticationManager authManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain getSecurityFilterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+    public SecurityFilterChain getSecurityFilterChain(HttpSecurity http, AuthenticationManager authManager, JWTFilter jwtFilter) throws Exception {
         http.csrf().disable().authorizeHttpRequests()
-                .requestMatchers("/employee/change/**", "/employee/add/").hasRole("ADMIN")
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/api/employee/**", "/api/employee/add").hasRole("ADMIN")
+                .requestMatchers("/api/auth/login").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/", true).failureUrl("/login?error").and()
-                .authenticationManager(authManager).sessionManagement();
-        return http.build();
+                .authenticationManager(authManager).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        return http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 
     @Bean
