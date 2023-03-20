@@ -1,4 +1,4 @@
-package ru.bendricks.employeeadministratoion.security;
+package ru.bendricks.employeeadministratoion.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
-        http.authorizeHttpRequests()
+        http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/employee/change/**", "/employee/add/").hasRole("ADMIN")
                 .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated().and()

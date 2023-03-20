@@ -1,10 +1,11 @@
-package ru.bendricks.employeeadministratoion.security;
+package ru.bendricks.employeeadministratoion.security.util;
 
 import ru.bendricks.employeeadministratoion.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import ru.bendricks.employeeadministratoion.security.service.RegistrationService;
 
 @Component
 public class UserValidator implements Validator {

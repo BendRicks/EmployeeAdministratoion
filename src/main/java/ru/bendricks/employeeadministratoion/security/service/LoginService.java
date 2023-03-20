@@ -1,4 +1,4 @@
-package ru.bendricks.employeeadministratoion.security;
+package ru.bendricks.employeeadministratoion.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bendricks.employeeadministratoion.model.User;
 import ru.bendricks.employeeadministratoion.repository.UserRepository;
+import ru.bendricks.employeeadministratoion.security.UserDetailsInfo;
 
 import java.util.Optional;
 
@@ -30,4 +31,13 @@ public class LoginService implements UserDetailsService {
         }
         return new UserDetailsInfo(user.get());
     }
+
+    public UserDetails loadUserById(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByEmail(username);
+        if (user.isEmpty()){
+            throw new UsernameNotFoundException("No user with such email");
+        }
+        return new UserDetailsInfo(user.get());
+    }
+
 }
