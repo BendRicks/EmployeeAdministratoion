@@ -1,7 +1,7 @@
 package ru.bendricks.employeeadministratoion.model;
 
-public enum UserRole {
+public enum RecordStatus {
 
-    ROLE_ADMIN, ROLE_EMPLOYEE
+    OPERATING, EXPIRED
 
 }

@@ -26,13 +26,16 @@ public class SecurityConfig {
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/employee/change/**", "/employee/add/").hasRole("ADMIN")
+                .requestMatchers("/login").permitAll()
                 .anyRequest().authenticated().and()
+                .formLogin().loginPage("/login").loginProcessingUrl("/process_login")
+                .defaultSuccessUrl("/", true).failureUrl("/login?error").and()
                 .authenticationManager(authManager).sessionManagement();
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public static PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

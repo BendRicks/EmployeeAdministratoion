@@ -6,7 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bendricks.employeeadministratoion.model.User;
 import ru.bendricks.employeeadministratoion.repository.UserRepository;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,6 +24,10 @@ public class LoginService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        Optional<User> user = userRepository.findByEmail(username);
+        if (user.isEmpty()){
+            throw new UsernameNotFoundException("No user with such email");
+        }
+        return new UserDetailsInfo(user.get());
     }
 }
