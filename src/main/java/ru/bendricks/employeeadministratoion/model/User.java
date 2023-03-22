@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,14 +10,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -56,6 +56,7 @@ public class User {
     private LocalDateTime creationTime;
 
     @Column(name = "passport_id", nullable = false)
+    @Size(min = 14, max = 14)
     private String passportId;
 
     @Column(name = "password", nullable = false)
@@ -64,9 +65,11 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Contract> contracts;
 

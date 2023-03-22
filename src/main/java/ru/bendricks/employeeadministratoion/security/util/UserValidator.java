@@ -5,16 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.bendricks.employeeadministratoion.security.service.RegistrationService;
+import ru.bendricks.employeeadministratoion.security.service.AuthService;
 
 @Component
 public class UserValidator implements Validator {
 
-    private final RegistrationService registrationService;
+    private final AuthService authService;
 
     @Autowired
-    public UserValidator(RegistrationService registrationService) {
-        this.registrationService = registrationService;
+    public UserValidator(AuthService authService) {
+        this.authService = authService;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         UserDTO user = (UserDTO) target;
-        if (!registrationService.isEmailAvailable(user.getEmail()))
+        if (!authService.isEmailAvailable(user.getEmail()))
             errors.rejectValue("email", "", "User with such username already exists");
     }
 }

@@ -3,9 +3,9 @@ package ru.bendricks.employeeadministratoion.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bendricks.employeeadministratoion.exception.UserNotFoundException;
 import ru.bendricks.employeeadministratoion.model.User;
 import ru.bendricks.employeeadministratoion.repository.UserRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +26,11 @@ public class UserService {
 
     public User findById(int id){
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.orElseThrow(NoSuchFieldError::new);
+        return userOptional.orElseThrow(UserNotFoundException::new);
+    }
+
+    public boolean isUserExists(int id){
+        return userRepository.findById(id).isPresent();
     }
 
 }
