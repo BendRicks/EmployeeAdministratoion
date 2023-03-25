@@ -4,29 +4,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import ru.bendricks.employeeadministratoion.dto.entity.ContractDTO;
+import ru.bendricks.employeeadministratoion.dto.entity.create.ContractCreateDTO;
 import ru.bendricks.employeeadministratoion.model.Contract;
+import ru.bendricks.employeeadministratoion.service.ContractService;
 import ru.bendricks.employeeadministratoion.service.UserService;
 
 @Component
 public class ContractValidator implements Validator {
 
-    private final UserService userService;
-
-    @Autowired
-    public ContractValidator(UserService userService) {
-        this.userService = userService;
-    }
-
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.equals(Contract.class);
+        return clazz.equals(ContractDTO.class) || clazz.equals(ContractCreateDTO.class);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        Contract contract = (Contract) target;
-        if (!userService.isUserExists(contract.getUser().getId())) {
-            errors.rejectValue("user", "", "No such user");
+        ContractCreateDTO contractCreateDTO = (ContractCreateDTO) target;
+        if (contractCreateDTO.getUserDTO() == null
+                || contractCreateDTO.getUserDTO().getId() == null) {
+            errors.rejectValue("user", "", "User id not found");
         }
     }
+
+    public void validateForChange(Object target, Errors errors) {
+        ContractDTO contractDTO = (ContractDTO) target;
+        if (contractDTO.getId() == null){
+            errors.rejectValue("id", "", "Contract id not found");
+        }
+        if (contractDTO.getUserDTO() != null
+                && contractDTO.getUserDTO().getId() == null) {
+            errors.rejectValue("user", "", "User id not found");
+        }
+    }
+
 }

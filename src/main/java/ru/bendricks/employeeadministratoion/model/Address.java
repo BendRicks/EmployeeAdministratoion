@@ -33,41 +33,41 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
-    @NotNull
+    @NotNull(message = "Must not be empty")
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private User user;
 
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "city")
+    @NotEmpty(message = "Must not be empty")
+    @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
+    @Column(name = "city", length = 45)
     private String city;
 
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "district")
+    @NotEmpty(message = "Must not be empty")
+    @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
+    @Column(name = "district", length = 45)
     private String district;
 
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "street")
+    @NotEmpty(message = "Must not be empty")
+    @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
+    @Column(name = "street", length = 45)
     private String street;
 
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "building")
+    @NotEmpty(message = "Must not be empty")
+    @Size(min = 1, max = 10, message = "Length must be between 1 and 10")
+    @Column(name = "building", length = 10)
     private String building;
 
-    @NotEmpty
-    @Size(min = 2)
-    @Column(name = "room")
+    @NotEmpty(message = "Must not be empty")
+    @Size(min = 1, max = 10, message = "Length must be between 1 and 10")
+    @Column(name = "room", length = 10)
     private String room;
 
-    @NotNull
+    @NotNull(message = "Must not be empty")
     @Enumerated(EnumType.STRING)
-    @Column(name = "address_status")
+    @Column(name = "address_status", length = 10)
     private RecordStatus addressStatus;
 }

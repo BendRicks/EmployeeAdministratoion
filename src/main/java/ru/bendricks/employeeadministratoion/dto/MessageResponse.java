@@ -1,4 +1,4 @@
-package ru.bendricks.employeeadministratoion.util;
+package ru.bendricks.employeeadministratoion.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ErrorResponse {
+public class MessageResponse {
 
     private String message;
-    private long timestamp;
+    private Long timestamp;
 
 }

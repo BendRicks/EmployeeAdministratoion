@@ -1,6 +1,7 @@
 package ru.bendricks.employeeadministratoion.security.util;
 
-import ru.bendricks.employeeadministratoion.dto.UserDTO;
+import ru.bendricks.employeeadministratoion.dto.entity.UserDTO;
+import ru.bendricks.employeeadministratoion.dto.entity.create.UserCreateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -19,13 +20,23 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.equals(UserDTO.class);
+        return clazz.equals(UserCreateDTO.class);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserDTO user = (UserDTO) target;
+        UserCreateDTO user = (UserCreateDTO) target;
         if (!authService.isEmailAvailable(user.getEmail()))
             errors.rejectValue("email", "", "User with such username already exists");
     }
+
+    public void validateForChange(Object target, Errors errors) {
+        UserDTO userDTO = (UserDTO) target;
+        if (!authService.isEmailAvailable(userDTO.getEmail()))
+            errors.rejectValue("email", "", "User with such username already exists");
+        if (userDTO.getId() == null || userDTO.getId() == 0){
+            errors.rejectValue("id", "", "Incorrect id");
+        }
+    }
+
 }

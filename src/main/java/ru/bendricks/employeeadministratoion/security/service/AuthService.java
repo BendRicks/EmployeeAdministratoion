@@ -8,9 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.bendricks.employeeadministratoion.dto.PasswordChangeDTO;
-import ru.bendricks.employeeadministratoion.exception.UserNotFoundException;
 import ru.bendricks.employeeadministratoion.model.User;
+import ru.bendricks.employeeadministratoion.model.UserRole;
 import ru.bendricks.employeeadministratoion.repository.UserRepository;
 import ru.bendricks.employeeadministratoion.security.UserDetailsInfo;
 
@@ -56,9 +57,10 @@ public class AuthService implements UserDetailsService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
     public User create(User user){
         user.setPassword(passwordEncoder.encode("password"));
-        user.setRole("ROLE_USER");
+        user.setRole(UserRole.ROLE_EMPLOYEE);
         user.setCreationTime(LocalDateTime.now());
         userRepository.save(user);
         return user;

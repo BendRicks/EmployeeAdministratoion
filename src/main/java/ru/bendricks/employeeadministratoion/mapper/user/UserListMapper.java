@@ -1,8 +1,9 @@
-package ru.bendricks.employeeadministratoion.mapper;
+package ru.bendricks.employeeadministratoion.mapper.user;
 
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
-import ru.bendricks.employeeadministratoion.dto.UserDTO;
+import ru.bendricks.employeeadministratoion.dto.entity.UserDTO;
+import ru.bendricks.employeeadministratoion.dto.entity.create.UserCreateDTO;
 import ru.bendricks.employeeadministratoion.model.User;
 
 import java.util.List;
@@ -12,6 +13,5 @@ import java.util.List;
 public interface UserListMapper {
 
     List<UserDTO> toDTO(List<User> users);
-    List<User> toModel(List<UserDTO> usersDTOs);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.bendricks.employeeadministratoion.security.filter.JWTFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +26,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity http, AuthenticationManager authManager, JWTFilter jwtFilter) throws Exception {
-        http.csrf().disable().authorizeHttpRequests()
+        http
+                .csrf().disable()
+                .authorizeHttpRequests()
                 .requestMatchers("/api/employee/**", "/api/employee/add").hasRole("ADMIN")
                 .requestMatchers("/api/auth/login").permitAll()
                 .anyRequest().authenticated().and()

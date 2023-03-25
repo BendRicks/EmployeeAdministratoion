@@ -13,24 +13,29 @@ import java.util.Date;
 @Component
 public class JWTUtil {
 
-    @Value("${jwt_secret}")
+    @Value("${jwt.secret}")
     private String secret;
+    @Value("${jwt.subject}")
+    private String subject;
+    @Value("${jwt.issuer}")
+    private String issuer;
+    @Value("${jwt.expiration_period_minutes}")
+    private Integer expiration_time;
 
     public String generateToken(User user){
-        return JWT.create().withSubject("user_details")
+        return JWT.create().withSubject(subject)
                 .withClaim("id", user.getId())
-                .withClaim("role", user.getRole())
                 .withIssuedAt(new Date())
-                .withIssuer("Employee_Administration_Server")
+                .withIssuer(issuer)
                 .withExpiresAt(
-                        Date.from(ZonedDateTime.now().plusMinutes(120).toInstant())
+                        Date.from(ZonedDateTime.now().plusMinutes(expiration_time).toInstant())
                 ).sign(Algorithm.HMAC512(secret));
     }
 
     public int validateTokenAndRetrieveClaim(String token) throws JWTVerificationException {
         DecodedJWT jwt = JWT.require(Algorithm.HMAC512(secret))
-                .withSubject("user_details")
-                .withIssuer("Employee_Administration_Server")
+                .withSubject(subject)
+                .withIssuer(issuer)
                 .build().verify(token);
         return jwt.getClaim("id").asInt();
     }

@@ -6,88 +6,94 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.bendricks.employeeadministratoion.exception.AddressNotFoundException;
-import ru.bendricks.employeeadministratoion.exception.ContractNotFoundException;
-import ru.bendricks.employeeadministratoion.exception.UserNotFoundException;
-import ru.bendricks.employeeadministratoion.util.ErrorResponse;
+
+import org.thymeleaf.exceptions.TemplateInputException;
+import ru.bendricks.employeeadministratoion.exception.NotCreatedException;
+import ru.bendricks.employeeadministratoion.exception.NotFoundException;
+import ru.bendricks.employeeadministratoion.dto.MessageResponse;
+
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class ExceptionHandleController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleContractNotFound(ContractNotFoundException exception) {
+    public ResponseEntity<MessageResponse> handleUserNotFoundException(NotFoundException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
-                        "No such contract",
+                new MessageResponse(
+                        exception.getEntityName().concat(" not found"),
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.NOT_FOUND
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleAddressNotFound(AddressNotFoundException exception) {
+    public ResponseEntity<MessageResponse> handleUserNotCreatedException(NotCreatedException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
-                        "No such address",
+                new MessageResponse(
+                        exception.getMessage(),
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException exception) {
+    public ResponseEntity<MessageResponse> handleUserNotCreatedException(TemplateInputException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
-                        "No such user",
+                new MessageResponse(
+                        exception.getMessage(),
                         System.currentTimeMillis()
-                ),
-                HttpStatus.NOT_FOUND
+                ), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleNullPointerException(NullPointerException exception) {
+    public ResponseEntity<MessageResponse> handleNullPointerException(NullPointerException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
-                        "Incorrect json params",
+                new MessageResponse(
+                        "Some params are missing or are null",
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
+    public ResponseEntity<MessageResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
-                        "Illegal json fields values",
+                new MessageResponse(
+                        "Illegal params values",
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleNumberFormatException(NumberFormatException exception) {
+    public ResponseEntity<MessageResponse> handleNumberFormatException(NumberFormatException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
+                new MessageResponse(
                         "Incorrect number format",
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException exception) {
+    public ResponseEntity<MessageResponse> handleBadCredentialsException(BadCredentialsException exception) {
         return new ResponseEntity<>(
-                new ErrorResponse(
+                new MessageResponse(
                         "Bad credentials",
                         System.currentTimeMillis()
-                ),
-                HttpStatus.BAD_REQUEST
+                ), HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<MessageResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        return new ResponseEntity<>(
+                new MessageResponse(
+                        "Not authorized",
+                        System.currentTimeMillis()
+                ), HttpStatus.BAD_REQUEST
         );
     }
 

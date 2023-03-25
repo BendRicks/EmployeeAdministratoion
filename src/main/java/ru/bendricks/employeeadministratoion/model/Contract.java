@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -36,7 +36,7 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @NotNull
     @JsonBackReference
@@ -45,38 +45,38 @@ public class Contract {
     private User user;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "employment_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date employmentDate;
+    private LocalDateTime employmentDate;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_of_work_date")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date endOfWorkDate;
+    private LocalDateTime endOfWorkDate;
 
     @NotNull
-    @Column(name = "salary")
+    @Column(name = "salary", precision = 7, scale = 2)
     private BigDecimal salary;
 
     @NotEmpty
     @Size(min = 28, max = 28)
-    @Column(name = "salary_iban")
+    @Column(name = "salary_iban", length = 28)
     private String salaryIBAN;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "contract_type")
+    @Column(name = "contract_type", length = 10)
     private ContractType contractType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "employment_type")
+    @Column(name = "employment_type", length = 10)
     private EmploymentType employmentType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "contract_status")
+    @Column(name = "contract_status", length = 10)
     private RecordStatus contractStatus;
 }
