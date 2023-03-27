@@ -21,8 +21,8 @@ public class ContractValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ContractCreateDTO contractCreateDTO = (ContractCreateDTO) target;
-        if (contractCreateDTO.getUserDTO() == null
-                || contractCreateDTO.getUserDTO().getId() == null) {
+        if (contractCreateDTO.getUser() == null
+                || contractCreateDTO.getUser().getId() == null) {
             errors.rejectValue("user", "", "User id not found");
         }
     }
@@ -32,8 +32,8 @@ public class ContractValidator implements Validator {
         if (contractDTO.getId() == null){
             errors.rejectValue("id", "", "Contract id not found");
         }
-        if (contractDTO.getUserDTO() != null
-                && contractDTO.getUserDTO().getId() == null) {
+        if (contractDTO.getUser() != null
+                && contractDTO.getUser().getId() == null) {
             errors.rejectValue("user", "", "User id not found");
         }
     }

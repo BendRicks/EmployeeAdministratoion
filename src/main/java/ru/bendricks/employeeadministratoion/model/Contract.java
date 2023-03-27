@@ -39,14 +39,14 @@ public class Contract {
     private Integer id;
 
     @NotNull
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JsonBackReference
     private User user;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "employment_date")
+    @Column(name = "employment_date", nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime employmentDate;
 
@@ -57,26 +57,26 @@ public class Contract {
     private LocalDateTime endOfWorkDate;
 
     @NotNull
-    @Column(name = "salary", precision = 7, scale = 2)
+    @Column(name = "salary", precision = 7, scale = 2, nullable = false)
     private BigDecimal salary;
 
     @NotEmpty
     @Size(min = 28, max = 28)
-    @Column(name = "salary_iban", length = 28)
+    @Column(name = "salary_iban", length = 28, nullable = false)
     private String salaryIBAN;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "contract_type", length = 10)
+    @Column(name = "contract_type", length = 10, nullable = false)
     private ContractType contractType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "employment_type", length = 10)
+    @Column(name = "employment_type", length = 10, nullable = false)
     private EmploymentType employmentType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "contract_status", length = 10)
+    @Column(name = "contract_status", length = 10, nullable = false)
     private RecordStatus contractStatus;
 }

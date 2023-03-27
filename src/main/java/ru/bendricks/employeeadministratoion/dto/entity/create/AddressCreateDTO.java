@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.dto.entity.create;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ import ru.bendricks.employeeadministratoion.model.RecordStatus;
 public class AddressCreateDTO {
 
     @NotNull(message = "Must not be empty")
-    private UserDTO userDTO;
+    private UserDTO user;
 
     @NotBlank(message = "Must not be empty")
     @Size(min = 2, max = 45, message = "Length must be between 2 and 45")

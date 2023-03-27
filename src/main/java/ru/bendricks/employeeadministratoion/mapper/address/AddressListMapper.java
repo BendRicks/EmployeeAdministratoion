@@ -7,7 +7,7 @@ import ru.bendricks.employeeadministratoion.model.Address;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = AddressMapper.class)
 @Component
 public interface AddressListMapper {
 

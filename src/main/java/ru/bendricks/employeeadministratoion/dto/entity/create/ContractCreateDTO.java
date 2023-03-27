@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.dto.entity.create;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -25,7 +26,7 @@ import java.time.LocalDateTime;
 public class ContractCreateDTO {
 
     @NotNull(message = "Must not be empty")
-    private UserDTO userDTO;
+    private UserDTO user;
 
     @NotNull(message = "Must not be empty")
     private LocalDateTime employmentDate;

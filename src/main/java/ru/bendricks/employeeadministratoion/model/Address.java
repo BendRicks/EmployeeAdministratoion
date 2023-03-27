@@ -36,38 +36,38 @@ public class Address {
     private Integer id;
 
     @NotNull(message = "Must not be empty")
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JsonBackReference
     private User user;
 
     @NotEmpty(message = "Must not be empty")
     @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
-    @Column(name = "city", length = 45)
+    @Column(name = "city", length = 45, nullable = false)
     private String city;
 
     @NotEmpty(message = "Must not be empty")
     @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
-    @Column(name = "district", length = 45)
+    @Column(name = "district", length = 45, nullable = false)
     private String district;
 
     @NotEmpty(message = "Must not be empty")
     @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
-    @Column(name = "street", length = 45)
+    @Column(name = "street", length = 45, nullable = false)
     private String street;
 
     @NotEmpty(message = "Must not be empty")
     @Size(min = 1, max = 10, message = "Length must be between 1 and 10")
-    @Column(name = "building", length = 10)
+    @Column(name = "building", length = 10, nullable = false)
     private String building;
 
     @NotEmpty(message = "Must not be empty")
     @Size(min = 1, max = 10, message = "Length must be between 1 and 10")
-    @Column(name = "room", length = 10)
+    @Column(name = "room", length = 10, nullable = false)
     private String room;
 
     @NotNull(message = "Must not be empty")
     @Enumerated(EnumType.STRING)
-    @Column(name = "address_status", length = 10)
+    @Column(name = "address_status", length = 10, nullable = false)
     private RecordStatus addressStatus;
 }

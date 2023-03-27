@@ -7,7 +7,7 @@ import ru.bendricks.employeeadministratoion.model.Contract;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = ContractMapper.class)
 @Component
 public interface ContractListMapper {
 

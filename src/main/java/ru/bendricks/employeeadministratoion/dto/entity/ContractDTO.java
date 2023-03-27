@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.dto.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -25,7 +26,7 @@ public class ContractDTO {
     @NotNull(message = "Must not be empty")
     private Integer id;
 
-    private UserDTO userDTO;
+    private UserDTO user;
 
     private LocalDateTime employmentDate;
 

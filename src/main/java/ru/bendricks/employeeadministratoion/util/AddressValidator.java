@@ -21,8 +21,8 @@ public class AddressValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         AddressCreateDTO address = (AddressCreateDTO) target;
-        if (address.getUserDTO() == null
-                || address.getUserDTO().getId() == null) {
+        if (address.getUser() == null
+                || address.getUser().getId() == null) {
             errors.rejectValue("user", "", "User id not found");
         }
     }
@@ -32,8 +32,8 @@ public class AddressValidator implements Validator {
         if (addressDTO.getId() == null){
             errors.rejectValue("id", "", "Address id not found");
         }
-        if (addressDTO.getUserDTO() != null
-                && addressDTO.getUserDTO().getId() == null) {
+        if (addressDTO.getUser() != null
+                && addressDTO.getUser().getId() == null) {
             errors.rejectValue("user", "", "User id not found");
         }
     }

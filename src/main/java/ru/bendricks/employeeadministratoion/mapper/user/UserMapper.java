@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.mapper.user;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.springframework.stereotype.Component;
 import ru.bendricks.employeeadministratoion.dto.entity.UserDTO;
 import ru.bendricks.employeeadministratoion.dto.entity.create.UserCreateDTO;
@@ -13,9 +14,6 @@ import ru.bendricks.employeeadministratoion.model.User;
 public interface UserMapper {
 
     UserDTO toDTO(User user);
-    UserDTO toDTO(UserCreateDTO userCreateDTO);
-    UserCreateDTO toCreateDTO(User user);
-    UserCreateDTO toCreateDTO(UserDTO userDTO);
     User toModel(UserCreateDTO userCreateDTO);
     User toModel(UserDTO userDTO);
 

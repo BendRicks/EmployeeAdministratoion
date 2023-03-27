@@ -38,6 +38,7 @@ class UserRepositoryTest {
     @Test
     @Order(2)
     @DisplayName(value = "Save user")
+    @Sql(value = "/sql/clear_tables.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void insertUser(){
         User user = new User();
         user.setNameEn("admin");
@@ -50,6 +51,7 @@ class UserRepositoryTest {
         user.setPassportId("kdiecdkefdswkf");
         user.setPassword("$2a$10$o.fuD0J.O5CLZKqNS8Rs7usrqXXZtHbh0pgjt1TH2UI3kOYqYcQoa");
         user.setRole(UserRole.ROLE_ADMIN);
+        assertThat(user.getId()).isNull();
         userRepository.save(user);
         assertThat(user.getId()).isNotNull();
     }

@@ -1,5 +1,6 @@
 package ru.bendricks.employeeadministratoion.dto.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -19,7 +20,7 @@ public class AddressDTO {
     @NotNull(message = "Must not be empty")
     private Integer id;
 
-    private UserDTO userDTO;
+    private UserDTO user;
 
     @Size(min = 2, max = 45, message = "Length must be between 2 and 45")
     private String city;

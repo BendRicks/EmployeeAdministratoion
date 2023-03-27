@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.bendricks.employeeadministratoion.exception.NotFoundException;
 import ru.bendricks.employeeadministratoion.model.User;
 import ru.bendricks.employeeadministratoion.repository.UserRepository;
 
@@ -29,7 +30,7 @@ public class UserService {
 
     public User findById(int id){
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.orElseThrow(() -> new EntityNotFoundException("User"));
+        return userOptional.orElseThrow(() -> new NotFoundException("User"));
     }
 
     @Transactional
